@@ -1,0 +1,54 @@
+.MainContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgb(46 41 41 / 55%);
+}
+
+.Form {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+
+.Form h2 {
+  margin-bottom: 20px;
+}
+
+.FormGroup {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.FormGroup label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.FormGroup input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.FormButton {
+  background-color: #0e6464;
+  color: rgb(244, 243, 243);
+  font-weight: bold;
+  font-size: medium;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.FormButton:hover {
+  background-color: #0b4d4d;
+}
