@@ -1,4 +1,4 @@
-.MainContainer {
+.MainContainerTaskList {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -6,6 +6,7 @@
   row-gap: 20px;
   padding-bottom: 20px;
   padding-top: 20px;
+  background-color: transparent;
 }
 
 .TaskList {

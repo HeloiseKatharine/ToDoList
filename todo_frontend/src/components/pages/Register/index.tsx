@@ -1,13 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import PopupForm from "../../common/PopupForm";
 
 export default function Register() {
+  const navegate = useNavigate();
+
   const handleRegister = (username: string, password: string) => {
     console.log("Nome:", username);
-    console.log("Senha:", password);
   };
 
   const onConfirm = () => {
-    console.log("...");
+    navegate("/home");
   };
 
   return (

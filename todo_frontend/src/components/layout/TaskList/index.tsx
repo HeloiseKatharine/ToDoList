@@ -4,7 +4,7 @@ import Popup from "../../common/Popup";
 import TaskForm from "../../common/TaskForm";
 import React, { useState } from "react";
 
-function TaskList() {
+export default function TaskList() {
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -83,7 +83,7 @@ function TaskList() {
   };
 
   return (
-    <div className="MainContainer">
+    <div className="MainContainerTaskList">
       <div className="TaskList">
         {tasks.map((task) => (
           <TaskItem
@@ -131,4 +131,4 @@ function TaskList() {
   );
 }
 
-export default TaskList;
+

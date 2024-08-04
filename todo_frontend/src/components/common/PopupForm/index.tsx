@@ -1,5 +1,6 @@
-import { useState } from "react";
 import "./style.scss";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface FormProps {
   data: (username: string, password: string) => void;
@@ -8,12 +9,17 @@ interface FormProps {
 }
 
 export default function PopupForm({ data, isLogin, onConfirm }: FormProps) {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     data(username, password);
+  };
+
+  const handleRegisterClick = () => {
+    navigate("/register");
   };
 
   return (
@@ -43,6 +49,13 @@ export default function PopupForm({ data, isLogin, onConfirm }: FormProps) {
         <button onClick={onConfirm} type="submit" className="FormButton">
           {isLogin ? "Entrar" : "Cadastrar"}
         </button>
+        {isLogin && (
+          <div>
+            <button onClick={handleRegisterClick} className="RegisterButton">
+              Não tem uma conta? Cadastre-se
+            </button>
+          </div>
+        )}
       </form>
     </div>
   );

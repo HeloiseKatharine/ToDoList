@@ -1,12 +1,11 @@
+import Header from "../../layout/Header";
 import TaskList from "../../layout/TaskList";
-import Register from "../Register";
-import Login from "../Login";
 
 function Home() {
+  console.log("teste");
   return (
     <div className="Home">
-      {/* <Register /> */}
-      {/* <Login/> */}
+      <Header />
       <TaskList />
     </div>
   );

@@ -52,3 +52,15 @@
 .FormButton:hover {
   background-color: #0b4d4d;
 }
+
+.RegisterButton {
+  border: 0;
+  background-color: transparent;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 20px;
+}
+
+.RegisterButton:hover {
+  color: blue;
+}
