@@ -2,18 +2,16 @@ import "./style.scss";
 import TaskItem from "../../common/TaskItem";
 import Popup from "../../common/Popup";
 import TaskForm from "../../common/TaskForm";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Task } from "../../../interfaces/interfaces";
+import { useAuth } from "../../../context/AuthContext";
+import axios from "../../../axiosConfig";
 
 export default function TaskList() {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      name: "Estudar para a prova de arquitetura 2",
-      isCompleted: false,
-    },
-    { id: 2, name: "Estudar React", isCompleted: false },
-  ]);
-
+  const { user } = useAuth();
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const [isPopupEditOpen, setIsPopupEditOpen] = useState(false);
   const [isPopupDeleteOpen, setIsPopupDeleteOpen] = useState(false);
   const [isTaskFormOpen, setTaskFormOpen] = useState(false);
@@ -44,7 +42,7 @@ export default function TaskList() {
       setIsPopupDeleteOpen(false);
     }
   };
-
+ 
   const cancelDelete = () => {
     setTaskToDelete(null);
     setIsPopupDeleteOpen(false);
@@ -82,19 +80,54 @@ export default function TaskList() {
     setTaskFormOpen(false);
   };
 
+  useEffect(() => {
+    if (user) {
+      const fetchTasks = async () => {
+        try {
+          const response = await axios.get("/task", {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("tokenAccess")}`,
+            },
+          });
+          setTasks(response.data.tasks);
+        } catch (err: any) {
+          setError(err.response?.data?.message || "Erro ao buscar as tasks.");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchTasks();
+    }
+  }, [isTaskFormOpen, user]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
     <div className="MainContainerTaskList">
       <div className="TaskList">
-        {tasks.map((task) => (
-          <TaskItem
-            key={task.id}
-            taskName={task.name}
-            onToggleComplete={() => handleToggleComplete(task.id)}
-            onEdit={() => handleEdit(task.id, task.name)}
-            onDelete={() => handleDelete(task.id)}
-            isCompleted={task.isCompleted}
-          />
-        ))}
+        {tasks.length === 0 ? (
+          <div className="Message">
+            <p>Nenhuma tarefa disponível :/</p>
+          </div>
+        ) : (
+          tasks.map((task) => (
+            <TaskItem
+              key={task.id}
+              taskName={task.name}
+              onToggleComplete={() => handleToggleComplete(task.id)}
+              onEdit={() => handleEdit(task.id, task.name)}
+              onDelete={() => handleDelete(task.id)}
+              isCompleted={task.isCompleted}
+            />
+          ))
+        )}
 
         {isPopupDeleteOpen && (
           <Popup
@@ -113,7 +146,7 @@ export default function TaskList() {
             initialInputValue={taskToEdit.name}
             ButtonText="Salvar"
             onCancel={cancelEdit}
-            onConfirm={confirmEdit}
+            onConfirm={(newName) => confirmEdit(newName)}
             isInput={true}
           />
         )}
@@ -130,5 +163,3 @@ export default function TaskList() {
     </div>
   );
 }
-
-

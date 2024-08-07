@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "./style.scss";
+import axios from "../../../axiosConfig";
+import { Task, User } from "../../../interfaces/interfaces";
 
 interface PopupProps {
   message: string;
@@ -19,12 +21,29 @@ export default function Popup({
   isInput,
 }: PopupProps) {
   const [inputValue, setInputValue] = useState(initialInputValue);
+  const [error, setError] = useState<string | null>(null);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   const handleConfirm = () => {
     if (inputValue.trim()) {
-      onConfirm(inputValue);
-    } else {
-      onConfirm();
+      const onConfirmCreateTask = async (inputValue?: string) => {
+        try {
+          const response = await axios.post(
+            "/task",
+            { name: inputValue, description: "" },
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("tokenAccess")}`,
+              },
+            }
+          );
+          setTasks([...tasks, response.data.task]);
+        } catch (err: any) {
+          setError(err.response?.data?.message || "Erro ao criar a tarefa.");
+        }
+      };
+      onConfirmCreateTask(inputValue);
+      onCancel();
     }
   };
 

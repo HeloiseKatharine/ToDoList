@@ -1,15 +1,9 @@
-import { useNavigate } from "react-router-dom";
 import PopupForm from "../../common/PopupForm";
 
 export default function Login() {
-  const navigate = useNavigate();
-  const handleLogin = (username: string, password: string) => {
-    console.log("Nome:", username);
-  };
+  const handleLogin = (username: string, password: string) => {};
 
-  const onConfirm = () => {
-    navigate("/home");
-  };
+  const onConfirm = async (e: React.FormEvent) => {};
 
   return <PopupForm data={handleLogin} isLogin={true} onConfirm={onConfirm} />;
 }
